@@ -2,7 +2,6 @@ from sympy import Symbol, tan, cos, sqrt, diff, Abs, init_printing, latex, simpl
 from pprint import pprint
 from math import atan, acos
 import math
-import os
 
 init_printing()
 
