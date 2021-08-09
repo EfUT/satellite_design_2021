@@ -64,7 +64,7 @@ def upper_format(high, file_name):
 
 if __name__ == '__main__':
 
-    file_name = 'precision_table_3km_1deg.txt'
+    file_name = 'precision_table_2km_0.3515deg.txt'
     low = 200
     format(low, file_name)
 
