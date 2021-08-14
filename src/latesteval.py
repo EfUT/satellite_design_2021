@@ -1,5 +1,4 @@
-from sympy import Symbol, tan, cos, sqrt, diff, Abs, init_printing, latex, simplify, pi, pprint
-from pprint import pprint
+from sympy import Symbol, tan, cos, sqrt, diff, Abs, init_printing, pi
 from math import atan, acos
 import math
 
@@ -52,7 +51,7 @@ def convert_pos_to_angle(x, y, z, a):
     theta = atan(math.sqrt((x - a) ** 2 + y ** 2) / z)
     phi = atan(math.sqrt((x + a) ** 2 + y ** 2) / z)
     psi = acos((x ** 2 + y ** 2 - a ** 2) /
-               math.sqrt((x ** 2 + y ** 2 + a ** 2) ** 2 - 4 * a ** 2 * x ** 2))
+               math.sqrt((x**2 + y ** 2 + a ** 2) ** 2 - 4 * a ** 2 * x ** 2))
     return theta, phi, psi
 
 
