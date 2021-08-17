@@ -1,16 +1,17 @@
 from math import cos, sqrt, tan, radians
+from typing import Callable, Set, Tuple, TypedDict
 from scipy import optimize
 import time
 
 from src.sampling_complete_data import PosData
 
 
-def _generate_func(data: PosData):
+def _generate_func(data: PosData) -> Callable:
     theta = radians(data.angle[0])
     phi = radians(data.angle[1])
     psi = radians(data.angle[2])
     alpha = radians(data.grad[0])
-    beta = radians(data.grad[2])
+    beta = radians(data.grad[1])
     a = data.a
 
     def func(x):
@@ -31,15 +32,21 @@ def _generate_func(data: PosData):
     return func
 
 
-def solve_nonlin(data: PosData, includeWrong: bool = False):
+class SolverInfo(TypedDict):
+    pos: set[tuple[float]]
+    correct: bool
+    time: float
+
+
+def solve_nonlin(data: PosData, includeWrong: bool = False) -> SolverInfo:
     root_set = set()
     initial_time = time.time()
 
     for init_x in range(-10000, 10000, 1000):
         for init_y in range(-10000, 10000, 1000):
             for init_z in range(0, 10000, 1000):
-                if any((init_x, init_y, init_z) == (data.a, 0, 0),
-                       (init_x, init_y, init_z) == (-data.a, 0, 0)):
+                if any([(init_x, init_y, init_z) == (data.a, 0, 0),
+                       (init_x, init_y, init_z) == (-data.a, 0, 0)]):
                     continue
 
                 result = optimize.root(
@@ -67,5 +74,5 @@ def solve_nonlin(data: PosData, includeWrong: bool = False):
     return {
         "pos": root_set,
         "correct": data.pos in root_set,
-        "time": final_time - initial_time,
+        "time": final_time - initial_time
     }
